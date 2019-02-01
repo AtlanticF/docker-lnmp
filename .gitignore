@@ -1,8 +1,8 @@
 .idea/*
-!.gitkeep
 logs/*
 data/*
 wwwroot/*
 nginx/*
 !nginx/default.conf
 !wwwroot/default/
+!.gitkeep
