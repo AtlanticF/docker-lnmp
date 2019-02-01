@@ -1,4 +1,5 @@
 .idea/*
+!.gitkeep
 logs/*
 data/*
 wwwroot/*
