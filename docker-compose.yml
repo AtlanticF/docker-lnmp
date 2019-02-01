@@ -1,0 +1,60 @@
+version: "3"
+services:
+
+  php-fpm:
+    build: ./php-fpm
+    container_name: lnmp-php-fpm
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/overrides.ini
+    restart: unless-stopped
+    networks:
+      - docker-lnmp
+
+  nginx:
+    image: nginx:1.13
+    container_name: lnmp-nginx
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./nginx:/etc/nginx/conf.d:ro
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - lnmp-php-fpm
+    restart: unless-stopped
+    networks:
+      - docker-lnmp
+
+  mysql:
+    image: mysql:5.7
+    container_name: lnmp-mysql
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./data/mysql:/var/lib/mysql
+      - ./mysql:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+    networks:
+      - docker-lnmp
+
+  redis:
+    image: redis:alpine
+    container_name: lnmp-redis
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    networks:
+      - docker-lnmp
+
+networks:
+  docker-lnmp:
+
+volumes:
+  lnmp-volumes:

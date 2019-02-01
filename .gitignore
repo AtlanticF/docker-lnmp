@@ -1,0 +1,6 @@
+logs/*
+data/*
+wwwroot/*
+nginx/*
+!nginx/default.conf
+!wwwroot/default/
